@@ -15,7 +15,7 @@ phases:
   pre_build:
     commands:
       - echo Prebuild ops
-      - pip3 install -r requirements.txt
+      - poetry install
   build:
     commands:
       - echo Building the application 
