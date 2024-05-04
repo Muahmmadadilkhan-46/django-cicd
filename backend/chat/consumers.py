@@ -72,12 +72,12 @@ class ChatConsumer(WebsocketConsumer):
         """
 
         if self.is_authenticated(self.user):
+            self.notify_user_leave()
+
             # Remove the user from the group
             async_to_sync(self.channel_layer.group_discard)(
                 self.room_group_name, self.channel_name
             )
-
-            self.notify_user_leave()
 
             ChatConsumer.connected_users -= 1
 
