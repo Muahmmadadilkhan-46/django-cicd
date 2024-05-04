@@ -18,8 +18,8 @@ phases:
       - echo Prebuild ops
       - sudo apt update  # Update package lists after adding the repository
       - sudo apt install -y python3.10 python3.10-distutils  # Install Python 3.9 if not already available
-      - curl -sSL https://install.python-poetry.org | python3.10 -  # Install poetry for Python 3.9
-      - poetry install
+      - curl -sSL https://install.python-poetry.org | python3.10 -  # Install poetry for Python 3.10
+     # - poetry install
   build:
     commands:
       - echo Building the application 
