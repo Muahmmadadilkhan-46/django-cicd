@@ -4,7 +4,7 @@ set positional-arguments
 # Django commands
 
 serve:
-  sh start.sh
+  python -m uvicorn healthlink.asgi:application --reload
 
 testall:
   python manage.py test
@@ -43,7 +43,7 @@ docs:
 # Backend setup
 
 bsetup:
-  pip install poetry && cd backend && poetry install && poetry shell && cd ..
+  /home/ubuntu/.local/bin/poetry install && /home/ubuntu/.local/bin/poetry shell
 
 # Frontend setup
 
