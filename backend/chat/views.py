@@ -7,7 +7,8 @@ import datetime
 from chat.models import Call
 from chat.serializers import CallSerializer
 
-from llm.chat_openai import send_transcription_to_chatbot
+from ml.openai.chat import send_transcription_to_chatbot
+from ml.emotion.predictions import EmotionPredictor
 from patient.models import Appointment
 
 from healthlink.utils.exceptions import (
@@ -21,9 +22,11 @@ from healthlink.utils.exceptions import (
     MissedAppointment,
 )
 
+from rest_framework.parsers import MultiPartParser
+
 
 class CallView(APIView):
-    authentication_classes = [JWTAuthentication]
+    # authentication_classes = [JWTAuthentication]
 
     def get(self, request):
         """
@@ -31,6 +34,7 @@ class CallView(APIView):
         """
         user = request.user
         call = self.validate_and_get_call(user)
+        call = Call.objects.last()
         serializer = CallSerializer(call)
         return Response(serializer.data, status=status.HTTP_200_OK)
 
@@ -118,8 +122,8 @@ class CallTranscriptView(APIView):
         transcription = request.data.get("transcription")
 
         # Validate the data
-        self.validate_data(call_id, str, "Call ID")
-        self.validate_data(patient_id, str, "Patient ID")
+        self.validate_data(call_id, int, "Call ID")
+        self.validate_data(patient_id, int, "Patient ID")
         self.validate_data(transcription, str, "Transcription")
 
         # Patient cannot send transcription
@@ -147,3 +151,27 @@ class CallTranscriptView(APIView):
             raise BadRequest(response["error"])
 
         return Response(response, status=status.HTTP_200_OK)
+
+
+class CallEmotionView(APIView):
+    parser_classes = (MultiPartParser,)
+    parser_classes[0].media_type = "multipart/form-data"
+    predictor = EmotionPredictor()
+
+    def post(self, request, *args, **kwargs):
+        """
+        Receive the image from the client, and send it to the emotion prediction model.
+        """
+        if "file" not in request.data:
+            raise BadRequest("Image file not found in the request")
+
+        image_file = request.data["file"]
+
+        if not image_file:
+            raise InvalidData("Image file is empty")
+
+        try:
+            emotion = self.predictor.predict(image_file.read())
+            return Response({"emotion": emotion}, status=status.HTTP_200_OK)
+        except Exception as e:
+            raise BadRequest(str(e))

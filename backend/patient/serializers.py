@@ -21,25 +21,24 @@ class MedicalRecordSerializer(serializers.ModelSerializer):
         """
 
         prescription = validated_data.get("prescription")
-        test_result = validated_data.get("test_result")
 
-        if not prescription or not test_result:
-            raise ValueError("Both prescription and test_result are required.")
+        if not isinstance(prescription, dict):
+            raise ValueError("Prescription should be a dictionary.")
 
-        if (
-            not len(prescription.name.split(".")) > 1
-            or not len(test_result.name.split(".")) > 1
-        ):
-            raise ValueError(
-                f"File name should have an extension. {prescription.name} {test_result.name}"
+        if not prescription.get("medicines") or not prescription.get("tests"):
+            raise ValueError("Prescription should have medicines and tests")
+
+        past_records = validated_data.get("past_records")
+
+        if past_records:
+            if not len(past_records.name.split(".")) > 1:
+                raise ValueError(
+                    f"File name should have an extension. {past_records.name}"
+                )
+
+            past_records.name = (
+                secrets.token_urlsafe(16) + "." + past_records.name.split(".")[-1]
             )
-
-        prescription.name = (
-            secrets.token_urlsafe(16) + "." + prescription.name.split(".")[-1]
-        )
-        test_result.name = (
-            secrets.token_urlsafe(16) + "." + test_result.name.split(".")[-1]
-        )
 
         return super().create(validated_data)
 
@@ -54,23 +53,3 @@ class MedicalTestSerializer(serializers.ModelSerializer):
     class Meta:
         model = MedicalTest
         fields = "__all__"
-
-
-class EmotionSerializer(serializers.ModelSerializer):
-    image = serializers.ImageField()
-
-    class Meta:
-        fields = ("image",)
-        model = None
-
-    def validate_image(self, value):
-        return value
-
-    def create(self, validated_data):
-        return validated_data
-
-    def update(self, instance, validated_data):
-        return validated_data
-
-    def save(self, **kwargs):
-        return self.validated_data
