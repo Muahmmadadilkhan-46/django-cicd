@@ -2,9 +2,9 @@ version: 0.0
 os: linux
 files: 
   - source: /
-    destination: /home/ubuntu/healthlinkdrf
+    destination: /home/ubuntu/healthlink
 permissions:
-  - object: /home/ubuntu/healthlinkdrf
+  - object: /home/ubuntu/healthlink
     owner: ubuntu
     group: ubuntu
 hooks:
