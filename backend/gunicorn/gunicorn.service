@@ -5,8 +5,8 @@ After=network.target
 [Service]
 User=ubuntu
 Group=www-data
-WorkingDirectory=/home/ubuntu/healthlinkdrf
-ExecStart=/home/ubuntu/env/bin/gunicorn --access-logfile - --workers 3 --bind unix:/home/ubuntu/healthlinkdrf/healthlink/healthlink.sock healthlink.wsgi:application
+WorkingDirectory=/home/ubuntu/healthlink
+ExecStart=/home/ubuntu/env/bin/gunicorn --access-logfile - --workers 3 --bind unix:/home/ubuntu/healthlink/healthlink/healthlink.sock healthlink.wsgi:application
 
        
 [Install]
