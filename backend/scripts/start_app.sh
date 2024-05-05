@@ -1,6 +1,6 @@
 #!/usr/bin/bash 
 
-sed -i 's/\[]/\["18.142.231.89"]/' /home/ubuntu/healthlinkdrf/healthlink/settings/local.py
+sed -i 's/\[]/\["18.142.231.89"]/' /home/ubuntu/healthlink/healthlink/settings/local.py
 
 python manage.py migrate 
 python manage.py makemigrations     

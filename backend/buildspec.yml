@@ -1,31 +1,69 @@
-
 version: 0.2
 
-environment_variables:
-  plaintext:
-    DJANGO_SETTINGS_MODULE: healthlink.settings.local
-    SECRET_KEY: nosecret
-    DATABASE_DEFAULT_URL: sqlite:///db.sqlite3
-    # DATABASE_STREAMDATA_URL: sqlite:///db2.sqlite3
-    # STREAM_INCOMING_PRIVATE_KEY: changeme
-    # STREAM_INCOMING_PUBLIC_KEY: changeme
-    # GOOGLE_API_KEY: changeme
-    # OPBEAT_ENABLED: False
+env:
+  variables:
+    DJANGO_SETTINGS_MODULE: "healthlink.settings.local"
+    SECRET_KEY: "nosecret"
+    DATABASE_DEFAULT_URL: "sqlite:///db.sqlite3"
+    # Add more environment variables as needed
 
 phases:
+  install:
+    runtime-versions:
+      python: 3.10
+    commands:
+      - echo "Installing system dependencies"
+      - apt-get update
+      - apt-get install -y python3.10 python3.10-distutils curl
+      - curl -sSL https://install.python-poetry.org | python3.10 -
+      - export PATH="$HOME/.local/bin:$PATH"  # Ensure Poetry is in the path
   pre_build:
     commands:
-      - echo Prebuild ops
-      - sudo apt update  # Update package lists after adding the repository
-      - sudo apt install -y python3.10 python3.10-distutils  # Install Python 3.9 if not already available
-      - curl -sSL https://install.python-poetry.org | python3.10 -  # Install poetry for Python 3.10
-     # - poetry install
+      - echo "Prebuild steps"
+      - poetry config virtualenvs.create false  # Disable virtualenv creation
+      - poetry install --no-dev  # Install dependencies
   build:
     commands:
-      - echo Building the application 
+      - echo "Building the application"
+      # Add build steps specific to your Django project, e.g., collectstatic, migrate
+      - python manage.py collectstatic --noinput
+      - python manage.py migrate
   post_build:
     commands:
-      - echo Build completed on `date`
+      - echo "Post build steps"
+      # Add any post-build steps here, e.g., packaging the application for deployment
+
 artifacts:
   files:
     - '**/*'
+
+# version: 0.2
+
+# environment_variables:
+#   plaintext:
+#     DJANGO_SETTINGS_MODULE: healthlink.settings.local
+#     SECRET_KEY: nosecret
+#     DATABASE_DEFAULT_URL: sqlite:///db.sqlite3
+#     # DATABASE_STREAMDATA_URL: sqlite:///db2.sqlite3
+#     # STREAM_INCOMING_PRIVATE_KEY: changeme
+#     # STREAM_INCOMING_PUBLIC_KEY: changeme
+#     # GOOGLE_API_KEY: changeme
+#     # OPBEAT_ENABLED: False
+
+# phases:
+#   pre_build:
+#     commands:
+#       - echo Prebuild ops
+#       - sudo apt update  # Update package lists after adding the repository
+#       - sudo apt install -y python3.10 python3.10-distutils  # Install Python 3.9 if not already available
+#       - curl -sSL https://install.python-poetry.org | python3.10 -  # Install poetry for Python 3.10
+#      # - poetry install
+#   build:
+#     commands:
+#       - echo Building the application 
+#   post_build:
+#     commands:
+#       - echo Build completed on `date`
+# artifacts:
+#   files:
+#     - '**/*'
