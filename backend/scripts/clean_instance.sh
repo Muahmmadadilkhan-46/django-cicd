@@ -1,3 +1,3 @@
 #!/usr/bin/env bash
 
-sudo rm -rf /home/ubuntu/healthlink/*
+sudo rm -rf /home/ubuntu/django-cicd/*

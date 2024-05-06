@@ -2,9 +2,9 @@ version: 0.0
 os: ubuntu
 files:
   - source: /
-    destination: /home/ubuntu/healthlink
+    destination: /home/ubuntu/django-cicd
 permissions:
-  - object: /home/ubuntu/healthlink
+  - object: /home/ubuntu/django-cicd
     owner: ubuntu
     group: ubuntu
 hooks:
