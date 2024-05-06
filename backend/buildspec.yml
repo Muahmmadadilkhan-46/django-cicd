@@ -1,4 +1,4 @@
-version: 0.1
+# version: 0.1
 
 environment_variables:
   plaintext:
@@ -16,18 +16,20 @@ phases:
     commands:
       - echo "Listing project directory contents:"
       - ls -al
-      - echo "Contents of django-cicd directory:"
-      - ls -al django-cicd
+      - echo "Contents of backend directory:"
+      - ls -al backend
       - echo "Contents of requirements.txt file:"
-      - cat django-cicd/requirements.txt
-      - pip3 install -r TESTcicdDjangoProject/requirements.txt
+      - cat backend/requirements.txt
+      - pip3 install -r backend/requirements.txt  # Corrected path
 
   build:
     commands:
       - echo Building the application 
+
   post_build:
     commands:
       - echo Build completed on `date`
+
 artifacts:
   files:
     - '**/*'
