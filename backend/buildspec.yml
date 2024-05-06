@@ -16,21 +16,18 @@ phases:
     commands:
       - echo "Listing project directory contents:"
       - ls -al
-      - echo "Contents of backend directory:"
-      - ls -al backend
+      - echo "Contents of django-cicd directory:"
+      - ls -al django-cicd
       - echo "Contents of requirements.txt file:"
       - cat backend/requirements.txt
-      - pip3 install -r backend/requirements.txt  # Corrected path
-      - chmod +x backend/buildspec.yml  # Grant execute permissions to the buildspec.yml file
+      - pip3 install -r backend/requirements.txt
 
   build:
     commands:
       - echo Building the application 
-
   post_build:
     commands:
       - echo Build completed on `date`
-
 artifacts:
   files:
     - '**/*'
