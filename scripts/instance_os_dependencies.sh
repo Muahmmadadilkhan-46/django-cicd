@@ -13,6 +13,7 @@ sudo apt install -y python3-pip
 sudo apt install -y nginx
 sudo apt install -y virtualenv
 sudo apt-get install libpq-dev
+sudo chown -R ubuntu:ubuntu /home/ubuntu/django-cicd
 
 # Navigate to your project directory
 cd /home/ubuntu/django-cicd
