@@ -1,6 +1,6 @@
 #!/usr/bin/bash 
 
-sed -i 's/\[]/\["54.144.250.113"]/' /home/ubuntu/blogprojectdrf/blog/settings.py
+sed -i 's/\[]/\["47.129.39.209"]/' /home/ubuntu/django-cicd/blog/local.py
 
 python manage.py migrate 
 python manage.py makemigrations     

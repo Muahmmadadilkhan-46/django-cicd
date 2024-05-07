@@ -1,7 +1,7 @@
 import django
 import os
 
-os.environ.setdefault("DJANGO_SETTINGS_MODULE", "healthlink.settings.local")
+os.environ.setdefault("DJANGO_SETTINGS_MODULE", "healthlink.local")
 django.setup()
 
 from django.core.asgi import get_asgi_application  # noqa: E402
