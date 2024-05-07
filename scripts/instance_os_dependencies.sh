@@ -17,7 +17,7 @@ sudo chown -R ubuntu:ubuntu /home/ubuntu/django-cicd
 
 # Navigate to your project directory
 cd /home/ubuntu/django-cicd
-
+sudo apt install python3-venv
 # Create a virtual environment
 python3 -m venv venv
 
