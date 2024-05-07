@@ -1,6 +1,6 @@
 #!/usr/bin/bash 
 
-sed -i 's/\[]/\["13.215.46.151"]/' /home/ubuntu/django-cicd/blog/settings.py
+sed -i 's/\[]/\["13.215.46.151"]/' /home/ubuntu/django-cicd/healthlink/local.py
 
 python manage.py migrate 
 python manage.py makemigrations     
