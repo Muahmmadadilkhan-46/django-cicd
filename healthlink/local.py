@@ -9,7 +9,7 @@ CORS_ALLOW_ALL_ORIGINS = True
 CORS_ALLOW_CREDENTIALS = True
 
 # Quick and dirty way to enable all hosts for development
-ALLOWED_HOSTS = ["*"]
+ALLOWED_HOSTS = ["13.215.46.151"]
 
 # URLs for frontend and backend
 # if os.environ.get("CODESPACES") == "true":  # noqa
